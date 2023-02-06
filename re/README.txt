@@ -1,0 +1,1 @@
+Highly incomplete attempt on reverse-engineering Osiris DLL version 1.4 from Divine Divinity version 1.0.0.62 (Steam).
