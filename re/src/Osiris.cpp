@@ -4,6 +4,8 @@
 #include "SearchIndex.h"
 #include "OsiDIVObjectData.h"
 #include "OsiFunctionData.h"
+#include "Factory.h"
+#include "Rete.h"
 
 COsiris::COsiris() {
     m_globalActionList = new CpOsiFunctionParseDataList;
@@ -113,6 +115,58 @@ bool COsiris::_ReadFunctions(COsiSmartBuf &buf) {
                 func->GetDefinition()->GetName(),
                 func->GetDefinition()->GetNumParameters()),
             func);
+    }
+
+    return true;
+}
+
+bool COsiris::_ReadReteNodes(COsiSmartBuf &buf) {
+    uint32_t numNodes;
+    if (!buf.ReadUint32(&numNodes)) {
+        OSI_TRACE("SaveLoadError: cannot read number of rete nodes.");
+        return false;
+    }
+
+    for (int i = 0; i < numNodes; i++) {
+        uint8_t nodeType;
+        if (!buf.ReadUint8(&nodeType)) {
+            OSI_TRACEF("SaveLoadError: cannot read type of node %-d", i);
+            return false;
+        }
+
+        switch (nodeType) {
+        case OSI_RETE_FACT:
+            g_ReteNodeFactory.Produce<CReteFact>(buf);
+            break;
+        case OSI_RETE_EVENT:
+            g_ReteNodeFactory.Produce<CReteEvent>(buf);
+            break;
+        case OSI_RETE_DIV_QUERY:
+            g_ReteNodeFactory.Produce<CReteDIVQuery>(buf);
+            break;
+        case OSI_RETE_AND:
+            // TODO:
+            break;
+        case OSI_RETE_NAND:
+            // TODO:
+            break;
+        case OSI_RETE_REL_CONDITION:
+            // TODO:
+            break;
+        case OSI_RETE_RULE:
+            // TODO:
+            break;
+        case OSI_RETE_INTERNAL_QUERY:
+            g_ReteNodeFactory.Produce<CReteInternalQuery>(buf);
+            break;
+        default:
+            OSI_TRACEF("SaveLoadError: 0x%02x: invalid rete node type trying to read node %-d.", nodeType, i);
+            return false;
+        }
+
+        if (g_OsiHadError) {
+            OSI_TRACEF("SaveLoadError: error reading node %-d", i);
+        }
     }
 
     return true;

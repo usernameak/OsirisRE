@@ -29,6 +29,7 @@ private:
 
     bool _ReadDIVObjects(COsiSmartBuf &buf);
     bool _ReadFunctions(COsiSmartBuf &buf);
+    bool _ReadReteNodes(COsiSmartBuf &buf);
 };
 
 extern COsiris Osiris;

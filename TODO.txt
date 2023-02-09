@@ -1,1 +1,2 @@
 1. rename OsiHashedString to OsiSearchIndexKey?
+2. implement OSI_TRACE(F)

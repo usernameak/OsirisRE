@@ -65,7 +65,7 @@ public:
 
         uint32_t m_bucketIndex;
         typename std::set<Entry>::iterator m_setIt;
-        COsiSearchIndex<T> *m_pMyIndex;
+        const COsiSearchIndex<T> *m_pMyIndex;
 
     public:
         bool operator!=(const iterator &other) const {
@@ -105,7 +105,7 @@ public:
         }
     }
 
-    iterator begin() {
+    iterator begin() const {
         iterator it;
         it.m_bucketIndex = 0;
         it.m_setIt       = m_buckets[0].begin();
@@ -114,7 +114,7 @@ public:
         return it;
     }
 
-    iterator end() {
+    iterator end() const {
         iterator it;
         it.m_bucketIndex = NUM_BUCKETS - 1;
         it.m_setIt       = m_buckets[NUM_BUCKETS - 1].end();
@@ -123,8 +123,17 @@ public:
         return it;
     }
 
+    T lookupPtr(const COsiHashedString &key) const {
+        iterator it = lookup(key.hash, key.str);
+        if (it == end()) {
+            return nullptr;
+        } else {
+            return *it;
+        }
+    }
+
 private:
-    iterator lookup(uint32_t hash, const std::string &str) {
+    iterator lookup(uint32_t hash, const std::string &str) const {
         iterator itOut;
         itOut.m_bucketIndex = hash % NUM_BUCKETS; // ORIGINAL BUG: actually it should be [hash % (NUM_BUCKETS - 1)]
 

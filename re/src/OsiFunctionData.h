@@ -96,13 +96,15 @@ public:
     }
 };
 
+class CReteNodeFactory;
+
 class COsiFunctionData {
     uint32_t m_unk4;
     uint32_t m_unk8;
     uint32_t m_unkc;
     COsiFunctionDef *m_pFunctionDef;
     uint32_t m_unk14;
-    uint32_t *m_unk18;
+    CReteNodeFactory *m_nodeFactory;
     uint8_t m_unk1c;
     COsiKeyList m_keyList;
     uint32_t m_unk30;

@@ -1,6 +1,6 @@
 #include "OsiFunctionData.h"
 
-uint32_t g_unknown1;
+#include "Rete.h"
 
 COsiFunctionDef::COsiFunctionDef(COsiSmartBuf &buf)
     : m_name(nullptr) {
@@ -17,12 +17,12 @@ COsiFunctionDef::~COsiFunctionDef() {
 
 COsiFunctionData::COsiFunctionData(COsiSmartBuf &buf)
     : m_unk14(0),
-      m_unk18(nullptr) {
+      m_nodeFactory(nullptr) {
     OsiCheckError(buf.ReadUint32(&m_unk4));
     OsiCheckError(buf.ReadUint32(&m_unk8));
     OsiCheckError(buf.ReadUint32(&m_unkc));
     OsiCheckError(buf.ReadUint32(&m_unk14));
-    m_unk18 = &g_unknown1;
+    m_nodeFactory = &g_ReteNodeFactory;
     OsiCheckError(buf.ReadUint8(&m_unk1c));
     OsiCheckError(m_keyList.Read(buf));
     m_pFunctionDef = new COsiFunctionDef(buf);
