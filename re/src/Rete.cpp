@@ -1,16 +1,15 @@
 #include "Rete.h"
 
-CReteNodeFactory g_ReteNodeFactory;
+CReteNodeFactory CReteNodeFactory::instance;
 
-CReteConnection::CReteConnection(COsiSmartBuf &buf)
-    : m_unk04(0),
-      m_nodeFactory(nullptr) {
+CReteConnection::CReteConnection() {}
 
+CReteConnection::CReteConnection(COsiSmartBuf &buf) {
     OsiCheckError(Read(buf));
 }
 
 bool CReteConnection::Write(COsiSmartBuf &buf) const {
-    if (!buf.WriteUint32(m_unk04)) return false;
+    if (!m_nodeRef.Write(buf)) return false;
     if (!buf.WriteUint32(m_unk0C)) return false;
     if (!buf.WriteUint32(m_unk10)) return false;
 
@@ -18,14 +17,7 @@ bool CReteConnection::Write(COsiSmartBuf &buf) const {
 }
 
 bool CReteConnection::Read(COsiSmartBuf &buf) {
-    // TODO: unk04 and factory might need to be moved outside this class
-    uint32_t unk04_tmp;
-    if (!buf.ReadUint32(&unk04_tmp)) {
-        return false;
-    }
-
-    m_nodeFactory = &g_ReteNodeFactory;
-    m_unk04 = unk04_tmp;
+    if (!m_nodeRef.Read(buf)) return false;
 
     if (!buf.ReadUint32(&m_unk0C)) {
         return false;
@@ -68,4 +60,27 @@ CReteStartNode::CReteStartNode(COsiSmartBuf &buf) : CReteNode(buf) {
 
         m_connections.emplace_back(buf);
     }
+}
+
+// === //
+
+CReteChildNode::CReteChildNode(COsiSmartBuf &buf) : CReteNode(buf) {
+    OsiCheckError(m_parent.Read(buf));
+}
+
+// === //
+CReteBinaryNode::CReteBinaryNode(COsiSmartBuf &buf)
+    : CReteChildNode(buf),
+      m_unk4C(0) {
+    OsiCheckError(m_unk2C.Read(buf));
+    OsiCheckError(m_unk34.Read(buf));
+    OsiCheckError(m_unk3C.Read(buf));
+    OsiCheckError(m_unk44.Read(buf));
+    OsiCheckError(m_unk3C.Read(buf));
+    OsiCheckError(m_unk50.Read(buf));
+    OsiCheckError(m_left.Read(buf));
+    OsiCheckError(buf.ReadUint8(&m_unk6C));
+    OsiCheckError(m_unk70.Read(buf));
+    OsiCheckError(m_right.Read(buf));
+    OsiCheckError(buf.ReadUint8(&m_unk8C));
 }

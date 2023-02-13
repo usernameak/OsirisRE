@@ -4,6 +4,7 @@
 #include "KeyList.h"
 #include "List.h"
 #include "SearchIndex.h"
+#include "Rete.h"
 
 enum TOsiValueType {
 
@@ -103,8 +104,7 @@ class COsiFunctionData {
     uint32_t m_unk8;
     uint32_t m_unkc;
     COsiFunctionDef *m_pFunctionDef;
-    uint32_t m_unk14;
-    CReteNodeFactory *m_nodeFactory;
+    CReteNodeRef m_nodeRef;
     uint8_t m_unk1c;
     COsiKeyList m_keyList;
     uint32_t m_unk30;

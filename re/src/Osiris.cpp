@@ -136,19 +136,19 @@ bool COsiris::_ReadReteNodes(COsiSmartBuf &buf) {
 
         switch (nodeType) {
         case OSI_RETE_FACT:
-            g_ReteNodeFactory.Produce<CReteFact>(buf);
+            CReteNodeFactory::instance.Produce<CReteFact>(buf);
             break;
         case OSI_RETE_EVENT:
-            g_ReteNodeFactory.Produce<CReteEvent>(buf);
+            CReteNodeFactory::instance.Produce<CReteEvent>(buf);
             break;
         case OSI_RETE_DIV_QUERY:
-            g_ReteNodeFactory.Produce<CReteDIVQuery>(buf);
+            CReteNodeFactory::instance.Produce<CReteDIVQuery>(buf);
             break;
         case OSI_RETE_AND:
-            // TODO:
+            CReteNodeFactory::instance.Produce<CReteAnd>(buf);
             break;
         case OSI_RETE_NAND:
-            // TODO:
+            CReteNodeFactory::instance.Produce<CReteNAnd>(buf);
             break;
         case OSI_RETE_REL_CONDITION:
             // TODO:
@@ -157,7 +157,7 @@ bool COsiris::_ReadReteNodes(COsiSmartBuf &buf) {
             // TODO:
             break;
         case OSI_RETE_INTERNAL_QUERY:
-            g_ReteNodeFactory.Produce<CReteInternalQuery>(buf);
+            CReteNodeFactory::instance.Produce<CReteInternalQuery>(buf);
             break;
         default:
             OSI_TRACEF("SaveLoadError: 0x%02x: invalid rete node type trying to read node %-d.", nodeType, i);

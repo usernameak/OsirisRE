@@ -2,10 +2,6 @@
 
 #include <list>
 
-class CSelfPointer {
-
-};
-
 template<typename T>
 class CList : public std::list<T> {};
 

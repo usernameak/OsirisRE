@@ -27,6 +27,15 @@ public:
     CFactoryProductRef() : m_id(0), m_factory(nullptr) {}
 
     CFactoryProductRef(uint32_t id, Factory *factory) : m_id(id), m_factory(factory) {}
+
+    bool Read(COsiSmartBuf &buf) {
+        m_factory = &Factory::instance;
+        return buf.ReadUint32(&m_id);
+    }
+
+    bool Write(COsiSmartBuf &buf) const {
+        return buf.WriteUint32(m_id);
+    }
 };
 
 template <typename Self, typename T>

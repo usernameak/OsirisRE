@@ -17,16 +17,6 @@ class CReteDBase : public CFactoryProduct<CReteDBaseFactory, PCReteDBase> {
     // TODO:
 };
 
-class CReteDBaseRef {
-    uint32_t m_id;
-    CReteDBaseFactory *m_factory;
-public:
-    CReteDBaseRef() : m_id(0), m_factory(nullptr) {}
-
-    bool Read(COsiSmartBuf &buf) {
-        m_factory = &g_ReteDBaseFactory;
-        return buf.ReadUint32(&m_id);
-    }
-};
+typedef CFactoryProductRef<CReteNodeFactory, PCReteDBase> CReteDBaseRef;
 
 
