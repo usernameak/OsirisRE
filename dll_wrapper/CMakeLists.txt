@@ -15,7 +15,7 @@ add_library(Osiris SHARED IMPORTED GLOBAL
         include/OsiSmartBuf.h
         include/OsiCommon.h
         include/OsirisFuncs.h
-)
+        ../compiler_shim/DllMain.cpp)
 set_property(TARGET Osiris PROPERTY INTERFACE_INCLUDE_DIRECTORIES "${CMAKE_CURRENT_SOURCE_DIR}/include")
 set_property(TARGET Osiris PROPERTY IMPORTED_IMPLIB "${CMAKE_CURRENT_BINARY_DIR}/OsirisDLL.lib")
 add_dependencies(Osiris OsirisImplib)

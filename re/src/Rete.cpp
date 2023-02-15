@@ -65,7 +65,7 @@ CReteStartNode::CReteStartNode(COsiSmartBuf &buf) : CReteNode(buf) {
 // === //
 
 CReteChildNode::CReteChildNode(COsiSmartBuf &buf) : CReteNode(buf) {
-    OsiCheckError(m_parent.Read(buf));
+    OsiCheckError(m_next.Read(buf));
 }
 
 // === //
@@ -76,7 +76,6 @@ CReteBinaryNode::CReteBinaryNode(COsiSmartBuf &buf)
     OsiCheckError(m_unk34.Read(buf));
     OsiCheckError(m_unk3C.Read(buf));
     OsiCheckError(m_unk44.Read(buf));
-    OsiCheckError(m_unk3C.Read(buf));
     OsiCheckError(m_unk50.Read(buf));
     OsiCheckError(m_left.Read(buf));
     OsiCheckError(buf.ReadUint8(&m_unk6C));

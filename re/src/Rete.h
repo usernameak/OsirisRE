@@ -95,7 +95,7 @@ public:
 };
 
 class CReteChildNode : public CReteNode {
-    CReteConnection m_parent;
+    CReteConnection m_next;
 
 public:
     explicit CReteChildNode(COsiSmartBuf &buf);

@@ -4,36 +4,37 @@
 #include <vector>
 
 enum OsiCCErrorCode : int {
-    OSICCERR_OK = 0,
+    OSICCERR_OK               = 0,
     OSICCERR_INVALID_ARGUMENT = 1,
-    OSICCERR_CANT_OPEN_LOG = 2,
-    OSICCERR_CANT_SAVE = 3,
+    OSICCERR_CANT_OPEN_LOG    = 2,
+    OSICCERR_CANT_SAVE        = 3,
+    OSICCERR_CANT_INIT_GAME   = 4,
 };
 
-void DIVFuncUnk00() {
-    abort();
+uint32_t getDIVHandle(uint8_t a, uint16_t b, uint16_t c) {
+    return a & 0xF | (16 * (b | ((c & 0x3FF) << 16)));
 }
 
-void DIVFuncUnk04() {
-    abort();
+bool invokeCall(uint32_t handle, void *argsdata) {
+    return false;
 }
 
-void DIVFuncUnk08() {
-    abort();
+bool invokeQuery(uint32_t handle, void *argsdata) {
+    return false;
 }
 
-void DIVFuncLogMessage(const char *msg) {
-    fprintf(stderr, "Message from Osiris: %s\n", msg);
+void osirisError(const char *msg) {
+    fprintf(stderr, "Error from Osiris: %s\n", msg);
 }
 
 int main(int argc, char **argv) {
     // Osiris.DeleteAllData();
 
-    TOsirisInitFunction initFunctions {};
-    initFunctions.func0 = DIVFuncUnk00;
-    initFunctions.func4 = DIVFuncUnk04;
-    initFunctions.func8 = DIVFuncUnk08;
-    initFunctions.pfnLogMessage = DIVFuncLogMessage;
+    TOsirisInitFunction initFunctions{};
+    initFunctions.getDIVHandle = getDIVHandle;
+    initFunctions.invokeCall   = invokeCall;
+    initFunctions.invokeQuery  = invokeQuery;
+    initFunctions.osirisError  = osirisError;
 
     Osiris.RegisterDIVFunctions(&initFunctions);
 
@@ -64,8 +65,17 @@ int main(int argc, char **argv) {
                 if (!Osiris.Compile(filename, "r")) {
                     fprintf(stderr,
                         "compilation finished with errors/warnings,\n"
-                                    "refer to log file for more information\n");
+                        "refer to log file for more information\n");
                     return OSICCERR_OK;
+                }
+                return OSICCERR_OK;
+            });
+        } else if (strcmp(argv[i], "-init") == 0) {
+            buildTargets.emplace_back([filename = argv[i]]() {
+                if (!Osiris.InitGame()) {
+                    fprintf(stderr,
+                        "osiris init game failed\n");
+                    return OSICCERR_CANT_INIT_GAME;
                 }
                 return OSICCERR_OK;
             });

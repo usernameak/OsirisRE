@@ -18,16 +18,18 @@ A small utility to invoke the compiler in OsirisDLL.dll. Requires the DLL in the
 Common usage is like this (order of arguments matters):
 
 ```shell
-OsirisCC.exe -log compile.log -compile story.div -save story.000
+OsirisCC.exe -log compile.log -compile story.div -init -save story.000
 ```
 
 ... or, if you want the log to be output into the console:
 
 ```shell
-OsirisCC.exe -log CON -compile story.div -save story.000
+OsirisCC.exe -log CON -compile story.div -init -save story.000
 ```
 
-Reverse-engineered OsisisDLL.dll
+*You might want not to use `-init` if you don't want the databases to be initialized. Note that any side-effects in the INIT sections will not be visible in the game for obvious reasons.*
+
+Reverse-engineered OsirisDLL.dll
 --------------------------------
 
 This is extremely incomplete (only some small parts are currently reverse-engineered), however it might expand in the future to be used as a reference for the decompiler.
