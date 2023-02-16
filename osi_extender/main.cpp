@@ -44,28 +44,32 @@ public:
     }
 };
 
-void initialize(DWORD major, DWORD minor, DWORD patch, DWORD build) {
+void patchFakeLoad(uintptr_t insn_addr) {
+    DWORD oldProtect;
+    VirtualProtect((void *)(uintptr_t)(insn_addr / 0x1000 * 0x1000), 0x1000, PAGE_EXECUTE_READWRITE, &oldProtect);
 
-    if (major == 1 && minor == 0 && patch == 0 && build == 62) {
-        // 1.0.0.62
-        DWORD oldProtect;
-        VirtualProtect((void *)(uintptr_t)0x517000, 0x1000, PAGE_EXECUTE_READWRITE, &oldProtect);
-
-        // some extremely dangerous shit
-        uintptr_t fakeLoad;
-        __asm {
+    // some extremely dangerous shit
+    uintptr_t fakeLoad;
+    __asm {
             mov eax, dword ptr CFakeOsiris::FakeLoad
             mov fakeLoad, eax
-        }
-        ;
-        const uintptr_t INSN_ADDR       = 0x5170E1;
-        *((uint8_t *)(INSN_ADDR))       = 0x90;
-        *((uint8_t *)(INSN_ADDR + 1))   = 0xE8;
-        *((uintptr_t *)(INSN_ADDR + 2)) = fakeLoad - INSN_ADDR - 0x6;
+    }
+    *((uint8_t *)(insn_addr))       = 0x90;
+    *((uint8_t *)(insn_addr + 1))   = 0xE8;
+    *((uintptr_t *)(insn_addr + 2)) = fakeLoad - insn_addr - 0x6;
+}
+
+void initialize(DWORD major, DWORD minor, DWORD patch, DWORD build) {
+    if (major == 1 && minor == 0 && patch == 0 && build == 62) {
+        // 1.0.0.62
+        patchFakeLoad(0x5170E1);
+    } else if (major == 1 && minor == 0 && patch == 0 && build == 61) {
+        // 1.0.0.61
+        patchFakeLoad(0x512E90);
     } else if (major == 1 && minor == 2 && patch == 0 && build == 0) {
         // ConfigTool, ignore it
     } else {
-        MessageBoxW(NULL, L"Borderless Mod: Unsupported Divine Divinity version", L"div_slashopt", MB_OK);
+        MessageBoxW(NULL, L"Osiris Extender: Unsupported Divine Divinity version", L"Osiris Extender", MB_OK);
     }
 }
 
