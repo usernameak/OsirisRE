@@ -18,16 +18,23 @@ A small utility to invoke the compiler in OsirisDLL.dll. Requires the DLL in the
 Common usage is like this (order of arguments matters):
 
 ```shell
-OsirisCC.exe -log compile.log -compile story.div -init -save story.000
+OsirisCC.exe -log compile.log -compile story.div -save story.000
 ```
 
 ... or, if you want the log to be output into the console:
 
 ```shell
-OsirisCC.exe -log CON -compile story.div -init -save story.000
+OsirisCC.exe -log CON -compile story.div -save story.000
 ```
 
-*You might want not to use `-init` if you don't want the databases to be initialized. Note that any side-effects in the INIT sections will not be visible in the game for obvious reasons.*
+*You might want to use `-init` if you want the databases to be initialized, however that is not recommended - any side-effects in the INIT sections will not be visible in the game for obvious reasons, so see the next section for an alternative solution.*
+
+osi_force_init.asi
+------------------
+
+Allows you to force the game to run INIT goals when starting a new game. Fixes recompilation of vanilla scripts breaking the game. Requires [ThirteenAG's Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader/releases) to load the mod (name the loader's dll as `winmm.dll`, otherwise it will not work).
+
+Also has a config where you can set up a few things.
 
 Reverse-engineered OsirisDLL.dll
 --------------------------------
