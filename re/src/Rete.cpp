@@ -72,14 +72,24 @@ CReteChildNode::CReteChildNode(COsiSmartBuf &buf) : CReteNode(buf) {
 CReteBinaryNode::CReteBinaryNode(COsiSmartBuf &buf)
     : CReteChildNode(buf),
       m_unk4C(0) {
-    OsiCheckError(m_unk2C.Read(buf));
-    OsiCheckError(m_unk34.Read(buf));
-    OsiCheckError(m_unk3C.Read(buf));
-    OsiCheckError(m_unk44.Read(buf));
-    OsiCheckError(m_unk50.Read(buf));
+    OsiCheckError(m_leftParentRef.Read(buf));
+    OsiCheckError(m_rightParentRef.Read(buf));
+    OsiCheckError(m_leftAdaptorRef.Read(buf));
+    OsiCheckError(m_rightAdaptorRef.Read(buf));
+    OsiCheckError(m_leftFactRef.Read(buf));
     OsiCheckError(m_left.Read(buf));
-    OsiCheckError(buf.ReadUint8(&m_unk6C));
-    OsiCheckError(m_unk70.Read(buf));
+    OsiCheckError(buf.ReadUint8(&m_leftIndirection));
+    OsiCheckError(m_rightFactRef.Read(buf));
     OsiCheckError(m_right.Read(buf));
-    OsiCheckError(buf.ReadUint8(&m_unk8C));
+    OsiCheckError(buf.ReadUint8(&m_rightIndirection));
+}
+
+// === //
+
+CReteUnaryNode::CReteUnaryNode(COsiSmartBuf &buf) : CReteChildNode(buf) {
+    OsiCheckError(m_parent.Read(buf));
+    OsiCheckError(m_adaptor.Read(buf));
+    OsiCheckError(m_fact.Read(buf));
+    OsiCheckError(m_join.Read(buf));
+    OsiCheckError(buf.ReadUint8(&m_indirection));
 }

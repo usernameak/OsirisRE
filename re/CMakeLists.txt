@@ -22,7 +22,13 @@ add_library(Osiris SHARED
         src/OsiFunctionData.cpp
         src/OsiFunctionData.h
         src/KeyList.h
-        src/Factory.h src/Rete.cpp src/Rete.h src/ReteDBase.cpp src/ReteDBase.h)
+        src/Factory.h
+        src/Rete.cpp
+        src/Rete.h
+        src/ReteDBase.cpp
+        src/ReteDBase.h
+        src/OsiTypedValue.h
+        src/OsiTypedValue.cpp)
 
 target_compile_definitions(Osiris PRIVATE _CRT_SECURE_NO_WARNINGS)
 

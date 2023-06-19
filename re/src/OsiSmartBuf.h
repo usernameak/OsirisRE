@@ -114,6 +114,10 @@ public:
         return true;
     }
 
+    bool ReadFloat(float *value) {
+        return ReadUint32(reinterpret_cast<uint32_t *>(value));
+    }
+
     bool ReadEncString(unsigned char *buf) {
         while (COsiSmartBuf::ReadUint8(buf)) {
             *buf ^= m_xorValue;

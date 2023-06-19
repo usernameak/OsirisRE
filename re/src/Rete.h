@@ -102,17 +102,17 @@ public:
 };
 
 class CReteBinaryNode : public CReteChildNode {
-    CReteNodeRef m_unk2C;
-    CReteNodeRef m_unk34;
-    CReteAdaptorRef m_unk3C;
-    CReteAdaptorRef m_unk44;
+    CReteNodeRef m_leftParentRef;
+    CReteNodeRef m_rightParentRef;
+    CReteAdaptorRef m_leftAdaptorRef;
+    CReteAdaptorRef m_rightAdaptorRef;
     uint32_t m_unk4C;
-    CReteNodeRef m_unk50;
+    CReteNodeRef m_leftFactRef;
     CReteConnection m_left;
-    uint8_t m_unk6C;
-    CReteNodeRef m_unk70;
+    uint8_t m_leftIndirection;
+    CReteNodeRef m_rightFactRef;
     CReteConnection m_right;
-    uint8_t m_unk8C;
+    uint8_t m_rightIndirection;
 
 public:
     explicit CReteBinaryNode(COsiSmartBuf &buf);
@@ -126,4 +126,26 @@ public:
 class CReteNAnd : public CReteBinaryNode {
 public:
     using CReteBinaryNode::CReteBinaryNode;
+};
+
+struct CReteUnaryNode : public CReteChildNode {
+    CReteNodeRef m_parent;
+    CReteAdaptorRef m_adaptor;
+    CReteNodeRef m_fact;
+    CReteConnection m_join;
+    uint8_t m_indirection;
+
+public:
+    explicit CReteUnaryNode(COsiSmartBuf &buf);
+};
+
+struct CReteRelCondition : public CReteChildNode {
+    uint8_t m_leftIdx;
+    uint8_t m_rightIdx;
+    COsiTypedValue m_left;
+    COsiTypedValue m_right;
+    uint32_t m_type;
+
+public:
+    explicit CReteUnaryNode(COsiSmartBuf &buf);
 };

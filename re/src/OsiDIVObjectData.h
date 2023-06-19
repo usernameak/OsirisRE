@@ -21,6 +21,10 @@ public:
         return m_name;
     }
 
+    [[nodiscard]] uint8_t GetType() const {
+        return m_type;
+    }
+
     virtual ~COsiDIVObjectData();
 };
 

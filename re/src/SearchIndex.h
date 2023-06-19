@@ -30,6 +30,8 @@ struct COsiHashedString {
         return Hash(name) + numArgs;
     }
 
+    COsiHashedString() : hash(0), str() {}
+
     COsiHashedString(uint32_t hash, std::string str)
         : hash(hash),
           str(str) {}
@@ -130,6 +132,10 @@ public:
         } else {
             return *it;
         }
+    }
+
+    bool exists(const COsiHashedString &key) const {
+        return lookup(key.hash, key.str) != end();
     }
 
 private:

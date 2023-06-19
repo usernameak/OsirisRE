@@ -7,7 +7,10 @@
 #include "Rete.h"
 
 enum TOsiValueType {
-
+    OsiValueType_NONE = 0x0,
+    OsiValueType_INT = 0x1,
+    OsiValueType_REAL = 0x2,
+    OsiValueType_STRING = 0x3,
 };
 
 class COsiValueTypeList : public CList<TOsiValueType> {
