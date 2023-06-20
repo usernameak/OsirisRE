@@ -93,3 +93,13 @@ CReteUnaryNode::CReteUnaryNode(COsiSmartBuf &buf) : CReteChildNode(buf) {
     OsiCheckError(m_join.Read(buf));
     OsiCheckError(buf.ReadUint8(&m_indirection));
 }
+
+// === //
+
+CReteRelCondition::CReteRelCondition(COsiSmartBuf &buf) : CReteUnaryNode(buf) {
+    OsiCheckError(buf.ReadUint8(&m_leftIdx));
+    OsiCheckError(buf.ReadUint8(&m_rightIdx));
+    m_left = COsiTypedValue(buf);
+    m_right = COsiTypedValue(buf);
+    OsiCheckError(buf.ReadUint32(&m_type));
+}

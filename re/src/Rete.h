@@ -2,6 +2,7 @@
 
 #include "Factory.h"
 #include "ReteDBase.h"
+#include "OsiTypedValue.h"
 
 class CReteNode;
 class CReteDBase;
@@ -139,7 +140,7 @@ public:
     explicit CReteUnaryNode(COsiSmartBuf &buf);
 };
 
-struct CReteRelCondition : public CReteChildNode {
+struct CReteRelCondition : public CReteUnaryNode {
     uint8_t m_leftIdx;
     uint8_t m_rightIdx;
     COsiTypedValue m_left;
@@ -147,5 +148,5 @@ struct CReteRelCondition : public CReteChildNode {
     uint32_t m_type;
 
 public:
-    explicit CReteUnaryNode(COsiSmartBuf &buf);
+    explicit CReteRelCondition(COsiSmartBuf &buf);
 };

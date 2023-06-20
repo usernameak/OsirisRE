@@ -11,6 +11,7 @@ enum TOsiValueType {
     OsiValueType_INT = 0x1,
     OsiValueType_REAL = 0x2,
     OsiValueType_STRING = 0x3,
+    OsiValueType_MAX = 0x4
 };
 
 class COsiValueTypeList : public CList<TOsiValueType> {

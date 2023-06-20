@@ -151,7 +151,7 @@ bool COsiris::_ReadReteNodes(COsiSmartBuf &buf) {
             CReteNodeFactory::instance.Produce<CReteNAnd>(buf);
             break;
         case OSI_RETE_REL_CONDITION:
-            // TODO:
+            CReteNodeFactory::instance.Produce<CReteRelCondition>(buf);
             break;
         case OSI_RETE_RULE:
             // TODO:

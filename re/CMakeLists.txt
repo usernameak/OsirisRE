@@ -28,7 +28,7 @@ add_library(Osiris SHARED
         src/ReteDBase.cpp
         src/ReteDBase.h
         src/OsiTypedValue.h
-        src/OsiTypedValue.cpp)
+        src/OsiTypedValue.cpp src/OsiGlobal.h)
 
 target_compile_definitions(Osiris PRIVATE _CRT_SECURE_NO_WARNINGS)
 

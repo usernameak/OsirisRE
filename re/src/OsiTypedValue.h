@@ -28,8 +28,22 @@ private:
     Value m_value;
 
 public:
+    COsiTypedValue() : m_type(OsiValueType_NONE) {}
     explicit COsiTypedValue(COsiSmartBuf &buf);
+    virtual bool Write(COsiSmartBuf &buf) const;
 
-    void SetType(TOsiValueType type);
-    void SetValue(Value value);
+    virtual ~COsiTypedValue();
+
+    [[nodiscard]] bool IsReference() const;
+
+    virtual void SetType(TOsiValueType type);
+    [[nodiscard]] virtual TOsiValueType GetType() const {
+        return m_type;
+    }
+    [[nodiscard]] virtual bool IsValid() const {
+        return GetType() != OsiValueType_NONE;
+    }
+    virtual void Dump(char *buffer) const;
+    virtual void SetValue(Value value);
+    virtual Value GetValue() const;
 };

@@ -87,6 +87,13 @@ public:
         return FlushNextBlock(); // ORIGINAL BUG: FlushNextBlock is called twice, error handling issues
     }
 
+    bool WriteFloat(float value) {
+        // TODO: preserve original implementation
+        WriteBytes(&value, 4);
+
+        return FlushNextBlock(); // ORIGINAL BUG: FlushNextBlock is called twice, error handling issues
+    }
+
     bool ReadUint8_2(uint8_t *value) {
         if (!FetchBytes(1)) return false; // ORIGINAL BUG: FetchBytes is called twice
 
